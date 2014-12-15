@@ -6,14 +6,13 @@
 валют с помощью API сайта ЦБ РФ в виде XML файла. 
 
 Затем извлекает из скачанного XML-файла 
-данные о курсах валют и записывает их в отдельный файл exchange.txt.
+данные о курсах валют и записывает их в отдельный файл exchange.txt с разделителем в виде точки с запятой.
 
 Протестировано в GNU/Linux и Windows 7
 """
 
 import urllib.request
 from xml.dom import minidom
-
 
 # Ежедневные курсы валют ЦБ РФ
 url = "http://www.cbr.ru/scripts/XML_daily.asp"
@@ -35,9 +34,19 @@ webFile.close()
 # Парсинг xml и запись данных в файл
 doc = minidom.parse(FileName)
 
+# Извлечение даты
+root = doc.getElementsByTagName("ValCurs")[0]
+date = "Текущий курс валют ЦБ РФ на {date}г. \n".format(date=root.getAttribute('Date'))
+
+# Заголовок CSV
+head = "Идентификатор; Номинал; Название валюты; Сокращение; Курс (руб) \n"
+
+# Извлечение данных по валютам
 currency = doc.getElementsByTagName("Valute")
 
 with open("exchange.txt","w") as out:
+	out.write(date)
+	out.write(head)
 	for rate in currency:
 		sid = rate.getAttribute("ID")
 		charcode = rate.getElementsByTagName("CharCode")[0]
