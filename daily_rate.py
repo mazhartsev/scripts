@@ -44,7 +44,7 @@ with open("exchange.txt","w") as out:
 		name = rate.getElementsByTagName("Name")[0]
 		value = rate.getElementsByTagName("Value")[0]
 		nominal = rate.getElementsByTagName("Nominal")[0]
-		str = "{0}: {1} {2} ({3}) - {4} \n".format(sid, nominal.firstChild.data, 
+		str = "{0}; {1}; {2}; {3}; {4} \n".format(sid, nominal.firstChild.data, 
 		name.firstChild.data, charcode.firstChild.data, 
 		value.firstChild.data)
 		out.write(str)
