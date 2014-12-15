@@ -7,6 +7,8 @@
 
 Затем извлекает из скачанного XML-файла 
 данные о курсах валют и записывает их в отдельный файл exchange.txt.
+
+Протестировано в GNU/Linux и Windows 7
 """
 
 import urllib.request
@@ -21,7 +23,6 @@ webFile = urllib.request.urlopen(url)
 data = webFile.read()
 	
 # Имя файла
-	
 UrlSplit = url.split("/")[-1]
 ExtSplit = UrlSplit.split(".")[1]
 FileName = UrlSplit.replace(ExtSplit, "xml")
@@ -32,7 +33,6 @@ with open(FileName, "wb") as localFile:
 webFile.close()
 
 # Парсинг xml и запись данных в файл
-
 doc = minidom.parse(FileName)
 
 currency = doc.getElementsByTagName("Valute")
